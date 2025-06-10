@@ -153,7 +153,22 @@ Test Concurrency: To see the multi-threading in action, open several new termina
 
    Ensure ./http_service is running.
 
-   Check firewall: sudo firewall-cmd --list-all or sudo systemctl status firewalld. You might need to open port 8080: sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent then sudo firewall-cmd --reload.
+   Check firewall: 
+```bash
+sudo firewall-cmd --list-all 
+```
+or 
+```bash
+sudo systemctl status firewalld
+``` 
+You might need to open port 8080: 
+```bash
+sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent
+```
+then
+```bash
+sudo firewall-cmd --reload
+```
 
    undefined reference to 'pthread_create': As mentioned, you forgot to include -lpthread during compilation.
 
