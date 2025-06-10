@@ -1,116 +1,125 @@
 # Building and Testing a Multi-threaded C HTTP Service on RHEL
 
 This tutorial will guide you through the process of setting up, compiling, and testing the multi-threaded C HTTP JSON service application on a Red Hat Enterprise Linux (RHEL) environment.
-1. Introduction
+## 1. Introduction
 
-## the application 
 The application is a simple HTTP service written in C that listens for incoming POST requests, expects a JSON payload containing a "name" and a "sentence", and responds with a JSON structure that includes the server's hostname and the received sentence. The multi-threaded design allows it to handle multiple client connections concurrently.
-2. Prerequisites
+
+## 2. Prerequisites
 
 Before you begin, ensure you have the following tools installed on your RHEL system:
 
-    GCC (GNU Compiler Collection): The C compiler.
+GCC (GNU Compiler Collection): The C compiler.
 
-        To install: 
+To install: 
 ```bash
 sudo yum install gcc or sudo dnf install gcc
 ```
 
-    curl: A command-line tool for making HTTP requests (useful for testing).
+curl: A command-line tool for making HTTP requests (useful for testing).
 
-        To install: 
+To install: 
 ```bash
 sudo yum install curl or sudo dnf install curl
 ```  
 
-3. Writing (Saving) the Application
+## 3. Writing (Saving) the Application
 
 The C source code for the multi-threaded HTTP JSON service is provided in the http-json-service immersive artifact.
 
-    Access the Code: Copy the entire content from the http-json-service immersive artifact.
+Access the Code: Copy the entire content from the http-json-service immersive artifact.
 
-    Create a File: Open a text editor on your RHEL system (e.g., nano, vim, gedit) and paste the copied code into a new file.
+Create a File: Open a text editor on your RHEL system (e.g., nano, vim, gedit) and paste the copied code into a new file.
 
-    Save the File: Save the file as http_service.c in a directory of your choice (e.g., your home directory or a new project folder).
+Save the File: Save the file as http_service.c in a directory of your choice (e.g., your home directory or a new project folder).
 
-    Example using nano:
+Example using nano:
+```bash
+nano http_service.c
+```
+OR you can use VI
+```bash
+vi http_service.c
+```
 
-    nano http_service.c
+(Paste the code, then Ctrl+X, Y, Enter to save and exit)
 
-    (Paste the code, then Ctrl+X, Y, Enter to save and exit)
-
-4. Compiling the Application
+## 4. Compiling the Application
 
 To compile the application, you'll use GCC and specifically link against the POSIX threads library (pthread), as the application is multi-threaded.
 
-    Open Terminal: Navigate to the directory where you saved http_service.c.
+Open Terminal: Navigate to the directory where you saved http_service.c.
+```bash
+cd /path/to/your/project/
+```
 
-    cd /path/to/your/project/
+(Replace /path/to/your/project/ with your actual directory)
 
-    (Replace /path/to/your/project/ with your actual directory)
+Compile Command: Execute the following command:
+```bash
+gcc http_service.c -o http_service -lpthread
+```
+   gcc: Invokes the GNU C compiler.
 
-    Compile Command: Execute the following command:
+   http_service.c: Your source code file.
 
-    gcc http_service.c -o http_service -lpthread
+   -o http_service: Specifies that the compiled executable should be named http_service.
 
-        gcc: Invokes the GNU C compiler.
+   -lpthread: This crucial flag links your program with the pthread library, which provides the multi-threading functionalities (pthread_create, pthread_detach, etc.). Without this, the compiler would report undefined references to these functions.
 
-        http_service.c: Your source code file.
+Verify Compilation: If the compilation is successful, you won't see any output (or only warnings, which you should ideally address in a real-world scenario). A new executable file named http_service will be created in your current directory. You can check its existence using:
 
-        -o http_service: Specifies that the compiled executable should be named http_service.
+```bash
+ ls -l http_service
+```
 
-        -lpthread: This crucial flag links your program with the pthread library, which provides the multi-threading functionalities (pthread_create, pthread_detach, etc.). Without this, the compiler would report undefined references to these functions.
+If you encounter errors like undefined reference to 'pthread_create', it means you forgot the -lpthread flag or it's not correctly configured.
 
-    Verify Compilation: If the compilation is successful, you won't see any output (or only warnings, which you should ideally address in a real-world scenario). A new executable file named http_service will be created in your current directory. You can check its existence using:
-
-    ls -l http_service
-
-    If you encounter errors like undefined reference to 'pthread_create', it means you forgot the -lpthread flag or it's not correctly configured.
-
-5. Running the Application
+## 5. Running the Application
 
 Once compiled, you can run your HTTP service.
 
-    Execute: From your terminal, in the same directory as the executable, run:
+Execute: From your terminal, in the same directory as the executable, run:
 
-    ./http_service
+```bash
+./http_service
+```
 
-    Expected Output: You should see output similar to this, indicating the server has started and is listening for connections:
+Expected Output: You should see output similar to this, indicating the server has started and is listening for connections:
+Server listening on port 8080. Hostname: your-rhel-hostname
+Ready to accept connections...
+(Your actual hostname will be displayed.)
+The server will now be running and waiting for incoming HTTP requests on port 8080.
 
-    Server listening on port 8080. Hostname: your-rhel-hostname
-    Ready to accept connections...
-
-    (Your actual hostname will be displayed.)
-
-    The server will now be running and waiting for incoming HTTP requests on port 8080.
-
-6. Testing the Application
+## 6. Testing the Application
 
 You can test the service using curl from another terminal or even the same one (if you send it to the background, though it's easier with a new terminal).
+\\
+Open a New Terminal: Keep the server running in its original terminal.
+\\
+Send a POST Request: Use curl to send a POST request with a JSON body to your server.
 
-    Open a New Terminal: Keep the server running in its original terminal.
-
-    Send a POST Request: Use curl to send a POST request with a JSON body to your server.
-
+```bash
     curl -X POST -H "Content-Type: application/json" \
          -d '{"name": "RHEL Tester", "sentence": "This is a test sentence from RHEL!"}' \
          http://localhost:8080
+```
+\\
+   -X POST: Specifies the HTTP method as POST.
+\\
+   -H "Content-Type: application/json": Sets the Content-Type header, informing the server that the request body is JSON.
+\\
+   -d '...': Provides the request body. The JSON string contains name and sentence fields.
+\\
+   http://localhost:8080: The address and port of your running HTTP service.
+\\
+Observe Client Output: On the client terminal (where you ran curl), you should receive a JSON response:
+\\
+   {"hostname": "your-rhel-hostname", "sentence": "This is a test sentence from RHEL!"}
 
-        -X POST: Specifies the HTTP method as POST.
+(Again, your-rhel-hostname will be your machine's actual hostname.)
 
-        -H "Content-Type: application/json": Sets the Content-Type header, informing the server that the request body is JSON.
-
-        -d '...': Provides the request body. The JSON string contains name and sentence fields.
-
-        http://localhost:8080: The address and port of your running HTTP service.
-
-    Observe Client Output: On the client terminal (where you ran curl), you should receive a JSON response:
-
-    {"hostname": "your-rhel-hostname", "sentence": "This is a test sentence from RHEL!"}
-
-    (Again, your-rhel-hostname will be your machine's actual hostname.)
-
-    Observe Server Output: In the terminal where your http_service is running, you'll see logs indicating the connection, the received request, the extracted sentence, and the sent response, with messages from the individual threads handling the connections:
+Observe Server Output: In the terminal where your http_service is running, you'll see logs indicating the connection, the received request, the extracted sentence, and the sent response, with messages from the individual threads handling the connections:
 
     Main thread: Connection accepted from 127.0.0.1:xxxxx. Creating new thread...
     Thread handling connection from 127.0.0.1:xxxxx (socket X)
@@ -134,9 +143,9 @@ You can test the service using curl from another terminal or even the same one (
     {"hostname": "your-rhel-hostname", "sentence": "This is a test sentence from RHEL!"}
     Connection on socket X closed. Thread exiting.
 
-    Test Concurrency: To see the multi-threading in action, open several new terminal windows and run the curl command simultaneously or in rapid succession. You'll observe the server handling these requests in parallel, with multiple "Thread handling connection..." messages appearing without blocking each other.
+Test Concurrency: To see the multi-threading in action, open several new terminal windows and run the curl command simultaneously or in rapid succession. You'll observe the server handling these requests in parallel, with multiple "Thread handling connection..." messages appearing without blocking each other.
 
-7. Troubleshooting Common Issues
+## 7. Troubleshooting Common Issues
 
     "Address already in use" error: This means another process is already listening on port 8080. Either stop that process or change the PORT define in http_service.c to a different value (e.g., 8081), then recompile and rerun.
 
