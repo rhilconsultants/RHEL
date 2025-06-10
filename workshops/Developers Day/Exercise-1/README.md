@@ -147,32 +147,32 @@ Test Concurrency: To see the multi-threading in action, open several new termina
 
 ## 7. Troubleshooting Common Issues
 
-    "Address already in use" error: This means another process is already listening on port 8080. Either stop that process or change the PORT define in http_service.c to a different value (e.g., 8081), then recompile and rerun.
+   "Address already in use" error: This means another process is already listening on port 8080. Either stop that process or change the PORT define in http_service.c to a different value (e.g., 8081), then recompile and rerun.
 
-    "Connection refused" error (from curl): The server is not running, or your firewall is blocking the connection.
+   "Connection refused" error (from curl): The server is not running, or your firewall is blocking the connection.
 
-        Ensure ./http_service is running.
+   Ensure ./http_service is running.
 
-        Check firewall: sudo firewall-cmd --list-all or sudo systemctl status firewalld. You might need to open port 8080: sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent then sudo firewall-cmd --reload.
+   Check firewall: sudo firewall-cmd --list-all or sudo systemctl status firewalld. You might need to open port 8080: sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent then sudo firewall-cmd --reload.
 
-    undefined reference to 'pthread_create': As mentioned, you forgot to include -lpthread during compilation.
+   undefined reference to 'pthread_create': As mentioned, you forgot to include -lpthread during compilation.
 
-    JSON parsing issues: If the server doesn't extract the sentence correctly, double-check your curl command's JSON format. The simple parser in the C code is very sensitive to exact formatting.
+   JSON parsing issues: If the server doesn't extract the sentence correctly, double-check your curl command's JSON format. The simple parser in the C code is very sensitive to exact formatting.
 
-    Server crashes: This can happen with more complex inputs or larger data if buffers are too small. For robust applications, dynamic memory allocation and more sophisticated error handling are needed.
+   Server crashes: This can happen with more complex inputs or larger data if buffers are too small. For robust applications, dynamic memory allocation and more sophisticated error handling are needed.
 
-8. Further Improvements
+## 8. Further Improvements
 
-    Robust JSON Parsing: Integrate a proper JSON parsing library like cJSON or Jansson.
-
-    HTTP Protocol Handling: Implement full HTTP request parsing (headers, different methods, query parameters).
-
-    Error Handling and Logging: More detailed error messages and logging to files.
-
-    Graceful Shutdown: Implement a way to shut down the server cleanly (e.g., signal handling).
-
-    Scalability: For very high concurrency, consider an event-driven I/O model (e.g., using epoll on Linux) instead of a thread-per-connection model, which can consume significant resources with many concurrent connections.
-
-    HTTPS Support: For secure communication, integrate SSL/TLS libraries (like OpenSSL).
+   Robust JSON Parsing: Integrate a proper JSON parsing library like cJSON or Jansson.
+\\
+   HTTP Protocol Handling: Implement full HTTP request parsing (headers, different methods, query parameters).
+\\
+   Error Handling and Logging: More detailed error messages and logging to files.
+\\
+   Graceful Shutdown: Implement a way to shut down the server cleanly (e.g., signal handling).
+\\
+   Scalability: For very high concurrency, consider an event-driven I/O model (e.g., using epoll on Linux) instead of a thread-per-connection model, which can consume significant resources with many concurrent connections.
+\\
+   HTTPS Support: For secure communication, integrate SSL/TLS libraries (like OpenSSL).
 
 This tutorial should give you a solid foundation for deploying and testing your C HTTP service on RHEL!
