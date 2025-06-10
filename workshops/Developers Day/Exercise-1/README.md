@@ -27,7 +27,7 @@ sudo yum install curl or sudo dnf install curl
 
 The C source code for the multi-threaded HTTP JSON service is provided in the http-json-service immersive artifact.
 
-Access the Code: Copy the entire content from the http-json-service immersive artifact.
+Access the Code: Copy the entire content from the http-json-service immersive artifact which is located [here](https://raw.githubusercontent.com/rhilconsultants/RHEL/refs/heads/main/workshops/Developers%20Day/Code/http_service.c.)
 
 Create a File: Open a text editor on your RHEL system (e.g., nano, vim, gedit) and paste the copied code into a new file.
 
@@ -94,9 +94,9 @@ The server will now be running and waiting for incoming HTTP requests on port 80
 ## 6. Testing the Application
 
 You can test the service using curl from another terminal or even the same one (if you send it to the background, though it's easier with a new terminal).
-\\
+
 Open a New Terminal: Keep the server running in its original terminal.
-\\
+
 Send a POST Request: Use curl to send a POST request with a JSON body to your server.
 
 ```bash
@@ -104,17 +104,17 @@ Send a POST Request: Use curl to send a POST request with a JSON body to your se
          -d '{"name": "RHEL Tester", "sentence": "This is a test sentence from RHEL!"}' \
          http://localhost:8080
 ```
-\\
+
    -X POST: Specifies the HTTP method as POST.
-\\
+
    -H "Content-Type: application/json": Sets the Content-Type header, informing the server that the request body is JSON.
-\\
+
    -d '...': Provides the request body. The JSON string contains name and sentence fields.
-\\
+
    http://localhost:8080: The address and port of your running HTTP service.
-\\
+
 Observe Client Output: On the client terminal (where you ran curl), you should receive a JSON response:
-\\
+
    {"hostname": "your-rhel-hostname", "sentence": "This is a test sentence from RHEL!"}
 
 (Again, your-rhel-hostname will be your machine's actual hostname.)
@@ -153,7 +153,22 @@ Test Concurrency: To see the multi-threading in action, open several new termina
 
    Ensure ./http_service is running.
 
-   Check firewall: sudo firewall-cmd --list-all or sudo systemctl status firewalld. You might need to open port 8080: sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent then sudo firewall-cmd --reload.
+   Check firewall: 
+```bash
+sudo firewall-cmd --list-all 
+```
+or 
+```bash
+sudo systemctl status firewalld
+``` 
+You might need to open port 8080: 
+```bash
+sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent
+```
+then
+```bash
+sudo firewall-cmd --reload
+```
 
    undefined reference to 'pthread_create': As mentioned, you forgot to include -lpthread during compilation.
 
@@ -164,15 +179,15 @@ Test Concurrency: To see the multi-threading in action, open several new termina
 ## 8. Further Improvements
 
    Robust JSON Parsing: Integrate a proper JSON parsing library like cJSON or Jansson.
-\\
+
    HTTP Protocol Handling: Implement full HTTP request parsing (headers, different methods, query parameters).
-\\
+
    Error Handling and Logging: More detailed error messages and logging to files.
-\\
+
    Graceful Shutdown: Implement a way to shut down the server cleanly (e.g., signal handling).
-\\
+
    Scalability: For very high concurrency, consider an event-driven I/O model (e.g., using epoll on Linux) instead of a thread-per-connection model, which can consume significant resources with many concurrent connections.
-\\
+
    HTTPS Support: For secure communication, integrate SSL/TLS libraries (like OpenSSL).
 
 This tutorial should give you a solid foundation for deploying and testing your C HTTP service on RHEL!
