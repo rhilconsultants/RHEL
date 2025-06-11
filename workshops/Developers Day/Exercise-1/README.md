@@ -13,14 +13,22 @@ GCC (GNU Compiler Collection): The C compiler.
 
 To install: 
 ```bash
-sudo yum install gcc or sudo dnf install gcc
+sudo yum install gcc 
+```
+or 
+```bash
+sudo dnf install gcc
 ```
 
 curl: A command-line tool for making HTTP requests (useful for testing).
 
 To install: 
 ```bash
-sudo yum install curl or sudo dnf install curl
+sudo yum install curl 
+```
+or 
+```bash
+sudo dnf install curl
 ```  
 
 ## 3. Writing (Saving) the Application
@@ -28,6 +36,11 @@ sudo yum install curl or sudo dnf install curl
 The C source code for the multi-threaded HTTP JSON service is provided in the http-json-service immersive artifact.
 
 Access the Code: Copy the entire content from the http-json-service immersive artifact which is located [here](https://raw.githubusercontent.com/rhilconsultants/RHEL/refs/heads/main/workshops/Developers%20Day/Code/http_service.c.)
+
+Create a Directory: Create a directory for your project under your username home directory:
+```bash
+mkdir ~/http_service # For Example
+```
 
 Create a File: Open a text editor on your RHEL system (e.g., nano, vim, gedit) and paste the copied code into a new file.
 
@@ -52,7 +65,6 @@ Open Terminal: Navigate to the directory where you saved http_service.c.
 ```bash
 cd /path/to/your/project/
 ```
-
 (Replace /path/to/your/project/ with your actual directory)
 
 Compile Command: Execute the following command:
