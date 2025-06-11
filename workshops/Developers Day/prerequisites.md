@@ -69,7 +69,7 @@ EOF
 Now start a tmux session:
 
 ```bash
-tmux new-session -s ocp
+tmux new-session -s rhel
 ```
 
 #### Spliting the screen (NOT Mandatory)
