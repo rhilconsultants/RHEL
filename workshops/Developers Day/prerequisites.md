@@ -81,7 +81,7 @@ Next we will Navigate to the top bar by CTRL+UP (the ARROW UP) and create anothe
 To navigate between them you can run CTRL+ARROW and the arrows.  
 
 
-### 4.2. jq (JSON Processor)
+### 3.2. jq (JSON Processor)
 
 jq is a lightweight and flexible command-line JSON processor. It's invaluable for parsing, filtering, and manipulating JSON data directly in your terminal, which will be useful when working with the JSON responses from your HTTP service.
 
@@ -116,5 +116,38 @@ Pretty-print JSON:
         #   "name": "Bob",
         #   "city": "New York"
         # }
+
+## 3.3 nano (Text Editor)
+
+nano is a simple, user-friendly command-line text editor. It's easy to learn and is often used for quick edits to configuration files or source code in a terminal environment.
+
+Installation:
+```bash
+sudo dnf install -y nano
+```
+    
+Verification:
+To ensure nano is installed and functioning, you can check its version.
+```bash
+nano --version | head -n 1
+```
+
+You should see output similar to:
+
+GNU nano, version 5.6.1
+
+Quick nano Usage Guide:
+
+- Open a file: nano <filename> (e.g., nano my_file.txt)
+
+- Save changes: Ctrl+O (then Enter to confirm filename)
+
+- Exit nano: Ctrl+X
+
+- Cut a line: Ctrl+K
+
+- Paste a line: Ctrl+U
+
+- Search: Ctrl+W
 
 With these prerequisites in place, your RHEL environment will be ready for the lab exercises.

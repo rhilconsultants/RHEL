@@ -26,7 +26,7 @@ Your multi-threaded C HTTP application with its Autotools build system (configur
 
 If you don't have the RPM building tools, install them:
 ```bash
-sudo dnf install rpm-build redhat-rpm-config
+sudo dnf install rpm-build redhat-rpm-config -y
 ```
 Set up RPM Build Environment
 
@@ -70,20 +70,19 @@ The .spec file is the heart of your RPM package. It contains metadata and instru
 
 Create the .spec file:
 ```bash
-    nano ~/rpmbuild/SPECS/http-service.spec
+    nano ~/rpmbuild/SPECS/http_service.spec
 ```
     
-Add the content to http-service.spec:
+Add the content to http_service.spec:
 
-    Name:           http-service
+    Name:           http_service
     Version:        1.0
     Release:        1%{?dist}
     Summary:        A multi-threaded C HTTP service
-
-    License:        MIT # Or GPLv3+, BSD, etc. Based on your project's license.
-    URL:            https://github.com/yourusername/http-service # Replace with your project URL if applicable
-    Source0:        http_service-%{version}.tar.gz # Matches the tarball name
-
+    
+    License:        MIT # Or GPLv3+, BSD, etc. Based on your project's license
+    Source0:        http_service-%{version}.tar.gz 
+    
     BuildRequires:  gcc
     BuildRequires:  make
     BuildRequires:  autoconf
@@ -91,44 +90,33 @@ Add the content to http-service.spec:
     BuildRequires:  libtool
     # If your service uses other libraries beyond standard ones, add their -devel packages here
     # For pthreads, it's typically part of glibc-devel, which gcc depends on.
-
-    Requires:       systemd # If you create a systemd service file
-
+    
+    Requires: systemd 
+    
     %description
     This is a simple multi-threaded HTTP service written in C.
     It accepts JSON input with a 'name' and 'sentence' and
     responds with the hostname and the original sentence.
-
+    
     %prep
     # This section extracts the source tarball and prepares the build directory.
     # %setup -q is a macro that extracts Source0 and changes into the extracted directory.
     %setup -q
-
+    
     %build
     # This section contains the commands to build your software.
     # For Autotools, it's typically:
     %configure
     %make_build
-
+    
     %install
-    # This section contains commands to install files into the buildroot.
-    # DOCKER_BUILD_DIR is the root of your package installation (e.g., /usr/local/bin for http_service).
-    # Use 'install -D' to create parent directories if they don't exist.
     rm -rf %{buildroot}
     %make_install
-
-    # Manually install the systemd service file
-    # This assumes you have a systemd unit file (e.g., http-service.service)
-    # in your source directory after %prep.
-    # You would typically place this file in your project's root for Autotools.
+    
     install -D -m 0644 %{_builddir}/http_service-%{version}/http-service.service \
         %{buildroot}%{_unitdir}/http-service.service
-
+    
     %files
-    # This section lists all files that belong to the RPM package.
-    # Only files listed here will be included in the RPM.
-    # Ensure all installed files from %install are listed here.
-    # %{_bindir} expands to /usr/bin or /usr/local/bin (depending on configure prefix)
     %{_bindir}/http_service
     # Service file
     %{_unitdir}/http-service.service
