@@ -18,15 +18,11 @@ Before you start, ensure you have Autotools installed on your RHEL system:
 
 Autotools (Autoconf, Automake, Libtool):
 To install on RHEL (using yum or dnf):
-```bash
-sudo yum install autoconf automake libtool
-```
-OR
 ```bash        
-sudo dnf install autoconf automake libtool
+sudo dnf install autoconf automake libtool -y 
 ```
 
-   Your C Source File: Make sure you have your application's source code saved as http_service.c in your project directory.
+Your C Source File: Make sure you have your application's source code saved as http_service.c in your project directory.
 
 ## 3. Setting up Autotools Files
 You'll need to create two main files in your project's root directory: configure.ac and Makefile.am.
@@ -97,11 +93,6 @@ Add the content: Paste the following into Makefile.am:
 ## 4. Generating the Build System
 
 Once configure.ac and Makefile.am are in place, you use Autotools commands to generate the configure script and Makefile.in files, which are then used to create the final Makefile.
-Navigate to Project Directory:
-```bash
-cd /path/to/your/project/
-```
-(Replace /path/to/your/project/ with your actual directory)
 
 Run autoreconf: This command is the primary entry point for Autotools. It runs aclocal, autoconf, and automake in the correct order to generate the build system.
 ```bash
@@ -116,16 +107,26 @@ autoreconf --install --force
 
 ## 5. Compiling the Application using the Generated Build System
 Now that the build system is generated, the compilation process follows a standard three-step approach.
+
+Remove the binary from the last exercise :
+```bash
+rm -f http_service
+```
+
 Run ./configure: This script performs system-specific checks and generates the final Makefile tailored to your environment.
+
 ```bash
 ./configure
 ```
 
-   You will see output detailing the checks being performed (e.g., checking for gcc, checking for pthread_create). If everything is successful, it will finish by creating the Makefile.
-   Run make: This command reads the generated Makefile and compiles your source code.
+You will see output detailing the checks being performed (e.g., checking for gcc, checking for pthread_create). If everything is successful, it will finish by creating the Makefile.
+   
+Run make: This command reads the generated Makefile and compiles your source code.
+
 ```bash
 make
 ```
+
 This will compile http_service.c and link it with the pthread library to produce the http_service executable.
 
 Verify Compilation:
@@ -134,7 +135,7 @@ ls -l http_service
 ```
 You should see the http_service executable file created in your project directory.
 
-## 6. Installing and Uninstalling (Optional)
+## 6. Installing (Optional)
 
 Autotools also provides standard targets for installing and uninstalling your application.
 
@@ -143,13 +144,48 @@ Install: To install the executable to the standard system binary directory (usua
 sudo make install
 ```
 After installation, you can run http_service from any directory without needing ./http_service.
+Make sure the file is at /usr/local/bin
+```bash
+ls -l /usr/local/bin/http_service
+```
+
+## 7. Testing the Application
+
+Now run the same test from the previuse exercise :
+
+Execute: From your terminal, in the same directory as the executable, run:
+
+```bash
+/usr/local/bin/http_service
+```
+
+Expected Output: You should see output similar to this, indicating the server has started and is listening for connections:
+Server listening on port 8080. Hostname: your-rhel-hostname
+Ready to accept connections...
+(Your actual hostname will be displayed.)
+The server will now be running and waiting for incoming HTTP requests on port 8080.
+
+You can test the service using curl from another terminal/tmux session or even the same one (if you send it to the background, though it's easier with a new terminal).
+
+Open a New Terminal: Keep the server running in its original terminal.
+
+Send a POST Request: Use curl to send a POST request with a JSON body to your server.
+
+```bash
+    curl -X POST -H "Content-Type: application/json" \
+         -d '{"name": "RHEL Tester", "sentence": "This is a test sentence from RHEL!"}' \
+         http://localhost:8080
+```
+
+## 8. Unistallation the Application (only if you did section 6)
+
 Uninstall: To remove the installed files:
 
 ```bash
 sudo make uninstall
 ```
 
-## 7. Troubleshooting Autotools Issues
+## 9. Troubleshooting Autotools Issues
 
    autoreconf: command not found: This means Autotools is not installed. Revisit Section 2.
 
