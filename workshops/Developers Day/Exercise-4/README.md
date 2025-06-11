@@ -69,7 +69,7 @@ The .spec file is the heart of your RPM package. It contains metadata and instru
 
 Create the .spec file:
 ```bash
-    nano ~/rpmbuild/SPECS/http_service.spec
+nano ~/rpmbuild/SPECS/http_service.spec
 ```
     
 Add the content to http_service.spec:
@@ -208,7 +208,7 @@ rpmbuild will:
 
 Verify Package Creation:
 ```bash
-    ls -l ~/rpmbuild/RPMS/$(uname -i)/
+ls -l ~/rpmbuild/RPMS/x86_64/
 ```
 
 You should see your http-service-1.0-1.<arch>.rpm file. For example:
@@ -219,31 +219,28 @@ You should see your http-service-1.0-1.<arch>.rpm file. For example:
 Once you have built the RPM, you can install it on your RHEL system.
 
 Install the RPM:
+
 ```bash
-sudo yum install ~/rpmbuild/RPMS/$(uname -i)/http-service-1.0-1.$(uname -i).rpm
-```
-# OR for newer RHEL/Fedora versions:
-```bash
-sudo dnf install ~/rpmbuild/RPMS/$(uname -i)/http-service-1.0-1.$(uname -i).rpm
+sudo dnf install ~/rpmbuild/RPMS/x86_64/http-service-1.0-1.x86_64.rpm
 ```
     
 This command will install your http_service executable to /usr/local/bin/ (or /usr/bin/ depending on your Autotools configure prefix) and the http-service.service file to /usr/lib/systemd/system/.
 
 Enable and Start the Service:
 ```bash
-    sudo systemctl daemon-reload
-    sudo systemctl enable --now http-service
+sudo systemctl daemon-reload
+sudo systemctl enable --now http-service
 ```
 
 Check Status and Test:
 ```bash
-    sudo systemctl status http-service
+sudo systemctl status http-service
 ```
 And we can reuse our CURL command to test the server :
 ```bash
-    curl -X POST -H "Content-Type: application/json" \
-         -d '{"name": "RPM Test", "sentence": "Testing RPM-installed service!"}' \
-         http://localhost:8080
+curl -X POST -H "Content-Type: application/json" \
+    -d '{"name": "RPM Test", "sentence": "Testing RPM-installed service!"}' \
+    http://localhost:8080
 ```
 We can Even look at to journal to see if we find anything about our http-service service
 ```bash
@@ -251,10 +248,6 @@ sudo journalctl -u http-service.service -f
 ```
 **Not Mandatory**
 Uninstall the RPM:
-```bash
-sudo yum remove http-service
-```    
-# OR
 ```bash
 sudo dnf remove http-service
 ```
