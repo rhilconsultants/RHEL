@@ -50,9 +50,8 @@ Your application's source code, along with its Autotools files, needs to be pack
 
 Navigate to your project directory:
 ```bash
-cd /path/to/your/project/
+cd ~/http_service
 ```
-(Replace /path/to/your/project/ with your actual project location)
 
 Generate a distribution tarball: Use make dist (from your Autotools setup) to create a standard source tarball.
 ```bash
@@ -156,8 +155,24 @@ Key sections and macros in the .spec file:
 Place http-service.service in your project
 
 For the install -D command in %install to work, you need to ensure the http-service.service file is part of your source distribution. The simplest way for this tutorial is to copy it into your project's main directory (where http_service.c and Makefile.am are).
+Go to the TARBALL directory
 ```bash
-cp /etc/systemd/system/http-service.service /path/to/your/project/
+cd ~/rpmbuild/SOURCES/
+```
+untar the file
+```bash
+tar -zxvf http_service-1.0.tar.gz 
+```
+
+Copy the http-service.service file to the directory:
+```bash
+cp /etc/systemd/system/http-service.service http_service-1.0
+```
+
+Retar the directory :
+```bash
+rm -f http_service-1.0.tar.gz
+tar -zcvf http_service-1.0.tar.gz http_service-1.0
 ```
 
 Then, regenerate your source tarball (make dist and move it to ~/rpmbuild/SOURCES/) so the service file is included.
@@ -175,6 +190,7 @@ Execute the rpmbuild command:
 ```bash
 rpmbuild -ba ~/rpmbuild/SPECS/http-service.spec
 ```
+
 - -ba: Stands for "build all" (binary and source RPM).
 - ~/rpmbuild/SPECS/http-service.spec: The path to your spec file.
 
