@@ -26,7 +26,7 @@ sudo dnf install curl wget -y
 
 The C source code for the multi-threaded HTTP JSON service is provided in the http-json-service immersive artifact.
 
-Access the Code: Copy the entire content from the http-json-service immersive artifact which is located [here](https://raw.githubusercontent.com/rhilconsultants/RHEL/refs/heads/main/workshops/Developers%20Day/Code/http_service.c.)
+Access the Code: Copy the entire content from the http-json-service immersive artifact which is located [here](https://raw.githubusercontent.com/rhilconsultants/RHEL/refs/heads/main/workshops/Developers%20Day/Code/http_service.c).
 
 Create a Directory: Create a directory for your project under your username home directory:
 ```bash
