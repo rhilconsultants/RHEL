@@ -85,7 +85,7 @@ jq is a lightweight and flexible command-line JSON processor. It's invaluable fo
 
 Installation:
 ```bash
-    sudo dnf install -y jq
+sudo dnf install -y jq
 ```
     
 Verification:
