@@ -12,6 +12,8 @@ This page outlines the necessary tools and configurations required on your Red H
 
 - sudo Privileges: You must have sudo privileges to install packages and manage system services (like Systemd).
 
+- all the Exercises will be running on "node1" so once you are logged in to the bastion use ssh to login to "node1"
+
 ## 3. Terminal Enhancements
 
 ### 3.1. tmux (Terminal Multiplexer)
