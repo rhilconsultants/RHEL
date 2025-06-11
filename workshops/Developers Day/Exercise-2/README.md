@@ -135,7 +135,7 @@ ls -l http_service
 ```
 You should see the http_service executable file created in your project directory.
 
-## 6. Installing and Uninstalling (Optional)
+## 6. Installing (Optional)
 
 Autotools also provides standard targets for installing and uninstalling your application.
 
@@ -144,13 +144,48 @@ Install: To install the executable to the standard system binary directory (usua
 sudo make install
 ```
 After installation, you can run http_service from any directory without needing ./http_service.
+Make sure the file is at /usr/local/bin
+```bash
+ls -l /usr/local/bin/http_service
+```
+
+## 7. Testing the Application
+
+Now run the same test from the previuse exercise :
+
+Execute: From your terminal, in the same directory as the executable, run:
+
+```bash
+/usr/local/bin/http_service
+```
+
+Expected Output: You should see output similar to this, indicating the server has started and is listening for connections:
+Server listening on port 8080. Hostname: your-rhel-hostname
+Ready to accept connections...
+(Your actual hostname will be displayed.)
+The server will now be running and waiting for incoming HTTP requests on port 8080.
+
+You can test the service using curl from another terminal/tmux session or even the same one (if you send it to the background, though it's easier with a new terminal).
+
+Open a New Terminal: Keep the server running in its original terminal.
+
+Send a POST Request: Use curl to send a POST request with a JSON body to your server.
+
+```bash
+    curl -X POST -H "Content-Type: application/json" \
+         -d '{"name": "RHEL Tester", "sentence": "This is a test sentence from RHEL!"}' \
+         http://localhost:8080
+```
+
+## 8. Unistallation the Application (only if you did section 6)
+
 Uninstall: To remove the installed files:
 
 ```bash
 sudo make uninstall
 ```
 
-## 7. Troubleshooting Autotools Issues
+## 9. Troubleshooting Autotools Issues
 
    autoreconf: command not found: This means Autotools is not installed. Revisit Section 2.
 
