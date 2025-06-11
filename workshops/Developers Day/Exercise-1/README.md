@@ -30,7 +30,7 @@ Access the Code: Copy the entire content from the http-json-service immersive ar
 
 Create a Directory: Create a directory for your project under your username home directory:
 ```bash
-mkdir ~/http_service # For Example
+mkdir ~/http_service && cd ~/http_service # For Example
 ```
 
 Create a File: Open a text editor on your RHEL system (e.g., nano, vim, gedit) and paste the copied code into a new file.
