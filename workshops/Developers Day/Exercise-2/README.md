@@ -18,15 +18,11 @@ Before you start, ensure you have Autotools installed on your RHEL system:
 
 Autotools (Autoconf, Automake, Libtool):
 To install on RHEL (using yum or dnf):
-```bash
-sudo yum install autoconf automake libtool
-```
-OR
 ```bash        
-sudo dnf install autoconf automake libtool
+sudo dnf install autoconf automake libtool -y 
 ```
 
-   Your C Source File: Make sure you have your application's source code saved as http_service.c in your project directory.
+Your C Source File: Make sure you have your application's source code saved as http_service.c in your project directory.
 
 ## 3. Setting up Autotools Files
 You'll need to create two main files in your project's root directory: configure.ac and Makefile.am.
@@ -97,11 +93,6 @@ Add the content: Paste the following into Makefile.am:
 ## 4. Generating the Build System
 
 Once configure.ac and Makefile.am are in place, you use Autotools commands to generate the configure script and Makefile.in files, which are then used to create the final Makefile.
-Navigate to Project Directory:
-```bash
-cd /path/to/your/project/
-```
-(Replace /path/to/your/project/ with your actual directory)
 
 Run autoreconf: This command is the primary entry point for Autotools. It runs aclocal, autoconf, and automake in the correct order to generate the build system.
 ```bash
@@ -116,16 +107,26 @@ autoreconf --install --force
 
 ## 5. Compiling the Application using the Generated Build System
 Now that the build system is generated, the compilation process follows a standard three-step approach.
+
+Remove the binary from the last exercise :
+```bash
+rm -f http_service
+```
+
 Run ./configure: This script performs system-specific checks and generates the final Makefile tailored to your environment.
+
 ```bash
 ./configure
 ```
 
-   You will see output detailing the checks being performed (e.g., checking for gcc, checking for pthread_create). If everything is successful, it will finish by creating the Makefile.
-   Run make: This command reads the generated Makefile and compiles your source code.
+You will see output detailing the checks being performed (e.g., checking for gcc, checking for pthread_create). If everything is successful, it will finish by creating the Makefile.
+   
+Run make: This command reads the generated Makefile and compiles your source code.
+
 ```bash
 make
 ```
+
 This will compile http_service.c and link it with the pthread library to produce the http_service executable.
 
 Verify Compilation:
