@@ -13,22 +13,13 @@ GCC (GNU Compiler Collection): The C compiler.
 
 To install: 
 ```bash
-sudo yum install gcc 
-```
-or 
-```bash
-sudo dnf install gcc
+sudo dnf install gcc -y
 ```
 
 curl: A command-line tool for making HTTP requests (useful for testing).
 
-To install: 
 ```bash
-sudo yum install curl 
-```
-or 
-```bash
-sudo dnf install curl
+sudo dnf install curl wget -y
 ```  
 
 ## 3. Writing (Saving) the Application
@@ -44,7 +35,7 @@ mkdir ~/http_service # For Example
 
 Create a File: Open a text editor on your RHEL system (e.g., nano, vim, gedit) and paste the copied code into a new file.
 
-Save the File: Save the file as http_service.c in a directory of your choice (e.g., your home directory or a new project folder).
+Save the File: Save the file as http_service.c in the new project folder.
 
 Example using nano:
 ```bash
@@ -61,13 +52,8 @@ vi http_service.c
 
 To compile the application, you'll use GCC and specifically link against the POSIX threads library (pthread), as the application is multi-threaded.
 
-Open Terminal: Navigate to the directory where you saved http_service.c.
-```bash
-cd /path/to/your/project/
-```
-(Replace /path/to/your/project/ with your actual directory)
-
 Compile Command: Execute the following command:
+
 ```bash
 gcc http_service.c -o http_service -lpthread
 ```
