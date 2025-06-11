@@ -4,13 +4,13 @@ This page outlines the necessary tools and configurations required on your Red H
 
 ## 1. Operating System
 
-    Red Hat Enterprise Linux (RHEL): This lab is designed and tested on RHEL 9. While concepts might apply to other Linux distributions, specific commands for package management (dnf) are RHEL-centric.
+ Red Hat Enterprise Linux (RHEL): This lab is designed and tested on RHEL 9. While concepts might apply to other Linux distributions, specific commands for package management (dnf) are RHEL-centric.
 
 ## 2. System Access
 
-    WEB/SSH Access: You need either SSH (ask the Instractor for login credentials) or the default WEB to access your RHEL machine.
+- WEB/SSH Access: You need either SSH (ask the Instractor for login credentials) or the default WEB to access your RHEL machine.
 
-    sudo Privileges: You must have sudo privileges to install packages and manage system services (like Systemd).
+- sudo Privileges: You must have sudo privileges to install packages and manage system services (like Systemd).
 
 ## 3. Terminal Enhancements
 
